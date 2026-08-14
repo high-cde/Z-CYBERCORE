@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-CYBERCORE /// WAKE UP</title>
+    <style>
+        body {
+            background-color: #05000a;
+            color: #0f0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-transform: uppercase;
+        }
+
+        /* Effetto tubo catodico (CRT) e scanlines */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Glitch estremo sul titolo */
+        .glitch-wrapper {
+            position: relative;
+            margin-top: 5vh;
+            margin-bottom: 30px;
+        }
+        .glitch {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff;
+            animation: glitch 1.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(0); }
+            20% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(-2px, 2px); }
+            40% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(2px, -2px); }
+            60% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(-2px, -2px); }
+            80% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(2px, 2px); }
+            100% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(0); }
+        }
+
+        /* Stile terminale crudo anni 90 */
+        .terminal {
+            background: rgba(0, 20, 0, 0.8);
+            border: 2px solid #0f0;
+            box-shadow: 0 0 15px #0f0, inset 0 0 10px #0f0;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 3;
+        }
+        .red { color: #ff0055; text-shadow: 0 0 5px #ff0055; }
+        .cyan { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+        .magenta { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
+        
+        .blink {
+            animation: blinker 0.8s linear infinite;
+        }
+        @keyframes blinker { 50% { opacity: 0; } }
+
+        /* Bottoni hacker vibe */
+        a.button {
+            display: inline-block;
+            background: transparent;
+            color: #ff00ff;
+            border: 2px solid #ff00ff;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 0 10px #ff00ff, inset 0 0 10px #ff00ff;
+            transition: 0.1s;
+            position: relative;
+            z-index: 3;
+        }
+        a.button:hover {
+            background: #ff00ff;
+            color: #000;
+            box-shadow: 0 0 30px #ff00ff, inset 0 0 20px #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glitch-wrapper">
+        <div class="glitch">Z-CYBERCORE</div>
+    </div>
+
+    <h2 class="cyan blink">/// AGI ENGINE ONLINE /// SCUDO ATTIVO ///</h2>
+
+    <div class="terminal">
+        > [AGI - Z-PRIME] INIZIALIZZAZIONE NUCLEO... OK.<br>
+        > <span class="cyan">[PROXY] 🕸️ INTERCETTAZIONE FLUSSO DATI IN TRANSITO...</span><br>
+        > <span class="red">[PROXY] 🛡️ ANOMALIA CRITICA: FIRMA MALEVOLA RILEVATA! (DROP)</span><br>
+        > <span class="cyan">[OSINT] 🌐 SCANSIONE OMBRA SU BERSAGLIO ACQUISITA...</span><br>
+        > <span class="magenta">[AGI - Z-PRIME] 🚨 AUTORIZZAZIONE ALL'ATTACCO CONCESSA.</span><br>
+        > <span class="red">[OFFENSIVE] ⚔️ INIEZIONE EXPLOIT ZERO-DAY IN CORSO...</span><br>
+        > <span class="blink">TARGET COMPROMESSO. ACCESSO SHELL OTTENUTO NATIVAMENTE.</span>
+    </div>
+
+    <a href="https://github.com/high-cde/Z-CYBERCORE" class="button">ENTER THE MATRIX</a>
+
+</body>
+</html>
