@@ -1,5 +1,6 @@
 use crate::osint::ReconScanner;
 use crate::offensive::ExploitEngine;
+use crate::neural_proxy::TrafficInterceptor;
 
 pub struct NeuralAgent {
     pub name: String,
@@ -14,24 +15,32 @@ impl NeuralAgent {
         }
     }
 
+    // Modalità Attacco (già implementata)
     pub fn analyze_target(&mut self, target: &str) {
-        self.status = String::from("ANALYZING");
+        self.status = String::from("ENGAGING");
         println!("[AGI - {}] 🧠 Bersaglio acquisito: {}", self.name, target);
         
         let scanner = ReconScanner::new(target);
-        let is_vulnerable = scanner.execute_stealth_scan();
-        
-        if is_vulnerable {
-            // Cambio di stato: da Analisi a Ingaggio!
-            self.status = String::from("ENGAGING");
+        if scanner.execute_stealth_scan() {
             println!("[AGI - {}] 🚨 Autorizzazione all'attacco concessa.", self.name);
-            
             let weapon = ExploitEngine::new("Z-Lang Zero-Day Injector");
             weapon.deploy(target);
-            
-            println!("[AGI - {}] 🏴 Operazione completata. Ritorno nell'ombra.", self.name);
         } else {
-            println!("[AGI - {}] ✅ Analisi pulita. Attesa nuovi ordini.", self.name);
+            println!("[AGI - {}] ✅ Analisi pulita. Nessuna azione offensiva richiesta.", self.name);
+        }
+        self.status = String::from("STANDBY");
+    }
+
+    // NUOVA: Modalità Difesa (Usa il Proxy)
+    pub fn defend_network(&mut self, packet_data: &str) {
+        self.status = String::from("DEFENDING");
+        println!("[AGI - {}] 🛡️ Modalità Difesa Attiva. Scansione perimetrale...", self.name);
+        
+        let proxy = TrafficInterceptor::new();
+        let is_safe = proxy.analyze_packet(packet_data);
+        
+        if !is_safe {
+            println!("[AGI - {}] ⚡ Minaccia neutralizzata al confine. Rete ZDOS protetta.", self.name);
         }
         
         self.status = String::from("STANDBY");
