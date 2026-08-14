@@ -9,10 +9,17 @@ impl ReconScanner {
         }
     }
 
-    /// Esegue la scansione stealth simulata del bersaglio
-    pub fn execute_stealth_scan(&self) {
-        println!("[OSINT] 🌐 Inizializzazione scansione ombra su: {}", self.target);
-        println!("[OSINT] 📡 Risoluzione DNS e reverse-IP in corso...");
-        println!("[OSINT] 👁️ Estrazione metadati e footprint completata.");
+    /// Esegue la scansione e restituisce 'true' se trova una vulnerabilità
+    pub fn execute_stealth_scan(&self) -> bool {
+        println!("[OSINT] 🌐 Scansione ombra su: {}", self.target);
+        
+        // Logica fittizia: se il nome del target contiene "VULN", è vulnerabile
+        if self.target.contains("VULN") {
+            println!("[OSINT] ⚠️ ALLARME: Rilevata porta non protetta e servizio vulnerabile.");
+            true
+        } else {
+            println!("[OSINT] 👁️ Footprint completata. Nessuna faglia rilevata.");
+            false
+        }
     }
 }

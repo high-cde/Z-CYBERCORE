@@ -1,4 +1,5 @@
 use crate::osint::ReconScanner;
+use crate::offensive::ExploitEngine;
 
 pub struct NeuralAgent {
     pub name: String,
@@ -15,13 +16,24 @@ impl NeuralAgent {
 
     pub fn analyze_target(&mut self, target: &str) {
         self.status = String::from("ANALYZING");
-        println!("[AGI - {}] 🧠 Bersaglio acquisito: {}. Richiesta OSINT in corso...", self.name, target);
+        println!("[AGI - {}] 🧠 Bersaglio acquisito: {}", self.name, target);
         
-        // L'AGI chiama autonomamente il modulo OSINT!
         let scanner = ReconScanner::new(target);
-        scanner.execute_stealth_scan();
+        let is_vulnerable = scanner.execute_stealth_scan();
         
-        println!("[AGI - {}] ✅ Dati OSINT assimilati. Nessuna vulnerabilità critica immediata.", self.name);
+        if is_vulnerable {
+            // Cambio di stato: da Analisi a Ingaggio!
+            self.status = String::from("ENGAGING");
+            println!("[AGI - {}] 🚨 Autorizzazione all'attacco concessa.", self.name);
+            
+            let weapon = ExploitEngine::new("Z-Lang Zero-Day Injector");
+            weapon.deploy(target);
+            
+            println!("[AGI - {}] 🏴 Operazione completata. Ritorno nell'ombra.", self.name);
+        } else {
+            println!("[AGI - {}] ✅ Analisi pulita. Attesa nuovi ordini.", self.name);
+        }
+        
         self.status = String::from("STANDBY");
     }
 }
