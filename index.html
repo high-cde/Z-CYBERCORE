@@ -25,11 +25,17 @@
 <body>
   <header>
     <div>
-      <h1>Z-CYBERCORE // LIVE TERMINAL</h1>
-      <span style="color: #8892b0; font-size: 0.75rem;">Connessione WebSocket Reale Attiva</span>
+      <h1>Z-CYBERCORE // SAFE DEMO TERMINAL</h1>
+      <span style="color: #8892b0; font-size: 0.75rem;">Analisi locale controllata · nessuna operazione remota</span>
     </div>
-    <div class="status-badge" id="ws-status">NODE JS: CONNECTING...</div>
+    <div class="status-badge" id="ws-status">LOCAL DEMO: READY</div>
   </header>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+    <a href="https://github.com/high-cde/ZDOS/releases/latest/download/zdos-x86_64-zlang-v1.iso" download style="color:var(--cyan); border:1px solid var(--cyan); padding:7px 10px; text-decoration:none;">DOWNLOAD ZDOS ISO x86_64</a>
+    <a href="https://github.com/high-cde/ZDOS" target="_blank" rel="noreferrer" style="color:var(--green); border:1px solid var(--green); padding:7px 10px; text-decoration:none;">ZDOS REPOSITORY</a>
+  </div>
+  <p style="color:#8892b0; font-size:.72rem; margin:0 0 12px;">Z-CYBERCORE è una demo Rust locale. Il download ISO appartiene alla release verificata del repository ZDOS.</p>
 
   <div class="terminal">
     <div class="terminal-header">
@@ -66,10 +72,10 @@
     const ws = new WebSocket(`${protocol}//${window.location.host}/ws/`);
 
     ws.onopen = () => {
-        badge.innerText = "NODE JS: ONLINE";
+        badge.innerText = "DEMO BACKEND: ONLINE";
         badge.style.color = "var(--cyan)";
         badge.style.borderColor = "var(--cyan)";
-        appendLog('success', 'Handshake stabilito. Tunnel crittografato aperto verso la VPS.');
+        appendLog('success', 'Demo backend collegato. Nessun tunnel remoto viene aperto da questa pagina.');
     };
 
     ws.onmessage = (event) => {
@@ -78,7 +84,7 @@
     };
 
     ws.onclose = () => {
-        badge.innerText = "NODE JS: OFFLINE";
+        badge.innerText = "DEMO BACKEND: OFFLINE";
         badge.style.color = "var(--red)";
         badge.style.borderColor = "var(--red)";
         appendLog('err', 'Connessione con il backend persa.');
@@ -92,7 +98,7 @@
         if(ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ cmd: cmd }));
         } else {
-            appendLog('err', 'Impossibile inviare: Socket offline.');
+            appendLog('err', 'Demo backend non disponibile: nessuna operazione remota eseguita.');
         }
         this.value = '';
       }
