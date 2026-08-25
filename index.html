@@ -1,122 +1,102 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Z-CYBERCORE /// WAKE UP</title>
-    <style>
-        body {
-            background-color: #05000a;
-            color: #0f0;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 20px;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-transform: uppercase;
-        }
-
-        /* Effetto tubo catodico (CRT) e scanlines */
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 2;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        /* Glitch estremo sul titolo */
-        .glitch-wrapper {
-            position: relative;
-            margin-top: 5vh;
-            margin-bottom: 30px;
-        }
-        .glitch {
-            font-size: 4rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff;
-            animation: glitch 1.5s infinite linear alternate-reverse;
-        }
-        @keyframes glitch {
-            0% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(0); }
-            20% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(-2px, 2px); }
-            40% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(2px, -2px); }
-            60% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(-2px, -2px); }
-            80% { text-shadow: 4px 0 #ff00ff, -4px 0 #00ffff; transform: translate(2px, 2px); }
-            100% { text-shadow: -4px 0 #ff00ff, 4px 0 #00ffff; transform: translate(0); }
-        }
-
-        /* Stile terminale crudo anni 90 */
-        .terminal {
-            background: rgba(0, 20, 0, 0.8);
-            border: 2px solid #0f0;
-            box-shadow: 0 0 15px #0f0, inset 0 0 10px #0f0;
-            padding: 20px;
-            width: 90%;
-            max-width: 800px;
-            font-size: 1.1rem;
-            line-height: 1.4;
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 3;
-        }
-        .red { color: #ff0055; text-shadow: 0 0 5px #ff0055; }
-        .cyan { color: #00ffff; text-shadow: 0 0 5px #00ffff; }
-        .magenta { color: #ff00ff; text-shadow: 0 0 5px #ff00ff; }
-        
-        .blink {
-            animation: blinker 0.8s linear infinite;
-        }
-        @keyframes blinker { 50% { opacity: 0; } }
-
-        /* Bottoni hacker vibe */
-        a.button {
-            display: inline-block;
-            background: transparent;
-            color: #ff00ff;
-            border: 2px solid #ff00ff;
-            padding: 15px 30px;
-            font-size: 1.5rem;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 0 10px #ff00ff, inset 0 0 10px #ff00ff;
-            transition: 0.1s;
-            position: relative;
-            z-index: 3;
-        }
-        a.button:hover {
-            background: #ff00ff;
-            color: #000;
-            box-shadow: 0 0 30px #ff00ff, inset 0 0 20px #fff;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z-CYBERCORE // WAR ROOM</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap');
+    :root { --bg: #030305; --panel: #0a0e17; --border: #1a2333; --red: #ff003c; --green: #00ff66; --cyan: #00f3ff; --yellow: #ffae00; --text: #e2e8f0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fira Code', monospace; }
+    body { background: var(--bg); color: var(--text); padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    header { border-bottom: 2px solid var(--red); padding-bottom: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+    h1 { color: var(--red); font-size: 1.5rem; text-shadow: 0 0 10px rgba(255,0,60,0.4); letter-spacing: 2px; }
+    .status-badge { background: rgba(0,255,102,0.1); border: 1px solid var(--green); color: var(--green); padding: 4px 10px; font-size: 0.75rem; font-weight: bold; border-radius: 3px; }
+    .terminal { flex-grow: 1; background: #000; border: 1px solid var(--border); padding: 12px; overflow-y: auto; display: flex; flex-direction: column; font-size: 0.8rem; }
+    .terminal-header { font-size: 0.7rem; color: #555; border-bottom: 1px dashed #333; padding-bottom: 6px; margin-bottom: 8px; text-transform: uppercase; display: flex; justify-content: space-between; }
+    .log-entry { margin-bottom: 6px; word-break: break-all; }
+    .log-time { color: #666; margin-right: 8px; }
+    .log-sys { color: var(--cyan); } .log-err { color: var(--red); font-weight: bold; } .log-success { color: var(--green); } .log-warn { color: var(--yellow); }
+    .input-line { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid #111; }
+    .prompt { color: var(--green); font-weight: bold; }
+    input[type="text"] { flex-grow: 1; background: transparent; border: none; color: #fff; font-family: 'Fira Code', monospace; font-size: 0.85rem; outline: none; }
+  </style>
 </head>
 <body>
+  <header>
+    <div>
+      <h1>Z-CYBERCORE // LIVE TERMINAL</h1>
+      <span style="color: #8892b0; font-size: 0.75rem;">Connessione WebSocket Reale Attiva</span>
+    </div>
+    <div class="status-badge" id="ws-status">NODE JS: CONNECTING...</div>
+  </header>
 
-    <div class="glitch-wrapper">
-        <div class="glitch">Z-CYBERCORE</div>
+  <div class="terminal">
+    <div class="terminal-header">
+      <span>Z-LANG DISPATCHER // LOG STREAM</span>
+    </div>
+    
+    <div id="log-container" style="flex-grow: 1; overflow-y: auto;">
+      <div class="log-entry"><span class="log-sys">[SYSTEM]</span> Inizializzazione socket...</div>
     </div>
 
-    <h2 class="cyan blink">/// AGI ENGINE ONLINE /// SCUDO ATTIVO ///</h2>
-
-    <div class="terminal">
-        > [AGI - Z-PRIME] INIZIALIZZAZIONE NUCLEO... OK.<br>
-        > <span class="cyan">[PROXY] 🕸️ INTERCETTAZIONE FLUSSO DATI IN TRANSITO...</span><br>
-        > <span class="red">[PROXY] 🛡️ ANOMALIA CRITICA: FIRMA MALEVOLA RILEVATA! (DROP)</span><br>
-        > <span class="cyan">[OSINT] 🌐 SCANSIONE OMBRA SU BERSAGLIO ACQUISITA...</span><br>
-        > <span class="magenta">[AGI - Z-PRIME] 🚨 AUTORIZZAZIONE ALL'ATTACCO CONCESSA.</span><br>
-        > <span class="red">[OFFENSIVE] ⚔️ INIEZIONE EXPLOIT ZERO-DAY IN CORSO...</span><br>
-        > <span class="blink">TARGET COMPROMESSO. ACCESSO SHELL OTTENUTO NATIVAMENTE.</span>
+    <div class="input-line">
+      <span class="prompt">root@cybercore:~#</span>
+      <input type="text" id="cmd-input" placeholder="Invia un comando (es: ping, help)..." autocomplete="off">
     </div>
+  </div>
 
-    <a href="https://github.com/high-cde/Z-CYBERCORE" class="button">ENTER THE MATRIX</a>
+  <script>
+    const input = document.getElementById('cmd-input');
+    const log = document.getElementById('log-container');
+    const badge = document.getElementById('ws-status');
 
+    function getTime() { return new Date().toLocaleTimeString('it-IT', { hour12: false }); }
+
+    function appendLog(type, text) {
+      let cssClass = 'log-sys';
+      if(type === 'err') cssClass = 'log-err';
+      if(type === 'success') cssClass = 'log-success';
+      if(type === 'warn') cssClass = 'log-warn';
+      log.innerHTML += `<div class="log-entry"><span class="log-time">[${getTime()}]</span><span class="${cssClass}">[${type.toUpperCase()}]</span> ${text}</div>`;
+      log.scrollTop = log.scrollHeight;
+    }
+
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const ws = new WebSocket(`${protocol}//${window.location.host}/ws/`);
+
+    ws.onopen = () => {
+        badge.innerText = "NODE JS: ONLINE";
+        badge.style.color = "var(--cyan)";
+        badge.style.borderColor = "var(--cyan)";
+        appendLog('success', 'Handshake stabilito. Tunnel crittografato aperto verso la VPS.');
+    };
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        appendLog(data.type, data.message);
+    };
+
+    ws.onclose = () => {
+        badge.innerText = "NODE JS: OFFLINE";
+        badge.style.color = "var(--red)";
+        badge.style.borderColor = "var(--red)";
+        appendLog('err', 'Connessione con il backend persa.');
+    };
+
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && this.value.trim() !== '') {
+        const cmd = this.value.trim();
+        appendLog('sys', `>> ${cmd}`);
+        
+        if(ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ cmd: cmd }));
+        } else {
+            appendLog('err', 'Impossibile inviare: Socket offline.');
+        }
+        this.value = '';
+      }
+    });
+  </script>
 </body>
 </html>
