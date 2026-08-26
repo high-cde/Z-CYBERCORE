@@ -1,12 +1,26 @@
 # Z-CYBERCORE ⚔️🧠
-**L'Arsenale Nativo di Sicurezza e AGI per l'Ecosistema ZDOS**
+**Il nucleo di Security Operations per l’ecosistema ZDOS**
 
-Z-CYBERCORE è la suite definitiva di sicurezza offensiva e difensiva, scritta integralmente in Rust e gestita nativamente dal linguaggio Z-Lang. Abbandona i framework frammentati per un'architettura monolitica, deterministica e guidata dall'Intelligenza Artificiale.
+Z-CYBERCORE coordina analisi difensive autorizzate, asset intelligence, evidenze e workflow di bug bounty attraverso una superficie pubblica e una War Room autenticata. L’architettura privilegia policy esplicite, provenance e audit rispetto all’automazione indiscriminata.
 
-### 🛡️ Moduli Principali:
-*   **AGI (Artificial General Intelligence):** Il motore di ragionamento che orchestra le analisi e le operazioni in totale autonomia sul kernel ZDOS.
-*   **OSINT (Open-Source Intelligence):** Ricognizione stealth, mappatura domini e analisi identità digitali.
-*   **Offensive:** Payload nativi polimorfici, esecuzione exploit e post-exploitation.
-*   **Neural Proxy:** Intercettazione traffico, analisi dei protocolli e rilevamento anomalie in tempo reale.
+### 🛡️ Moduli Principali
 
-*Forgiato per il controllo assoluto.*
+* **Control Plane:** programmi, scope, asset, finding, evidenze e approvazioni.
+* **OSINT:** raccolta da fonti pubbliche con origine, timestamp e confidence.
+* **Asset Intelligence:** enrichment Shodan server-side limitato ad asset autorizzati.
+* **Safe Probes:** DNS metadata, TLS metadata, security headers e HTTP baseline.
+* **ZLang Orchestrator:** piani dichiarativi allowlisted, senza shell arbitraria.
+* **Evidence Chain:** risultati hashati e audit trail per ricostruire ogni operazione.
+
+### 🔒 Safety Boundary
+
+La baseline non include exploit, brute force, credential attack, evasione, persistence, DoS, fuzzing aggressivo o target fuori scope. Ogni job richiede autenticazione, scope attivo, limiti, approvazione umana e condizioni di stop.
+
+### 🌐 Superfici
+
+* **War Room:** https://warroom.zdos-sec.it
+* **Security landing:** https://zdos-sec.it
+* **ZDOS Hub:** https://zdos-hub.it
+* **Stato tecnico:** [SECOPS-STATUS.md](SECOPS-STATUS.md)
+
+*Forgiato per il controllo verificabile.*
