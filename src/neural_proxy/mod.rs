@@ -1,5 +1,11 @@
 pub struct TrafficInterceptor;
 
+impl Default for TrafficInterceptor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl TrafficInterceptor {
     pub fn new() -> Self {
         TrafficInterceptor
