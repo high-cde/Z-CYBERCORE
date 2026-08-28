@@ -12,7 +12,7 @@ impl ReconScanner {
     /// Esegue la scansione e restituisce 'true' se trova una vulnerabilità
     pub fn execute_stealth_scan(&self) -> bool {
         println!("[OSINT] 🌐 Scansione ombra su: {}", self.target);
-        
+
         // Logica fittizia: se il nome del target contiene "VULN", è vulnerabile
         if self.target.contains("VULN") {
             println!("[OSINT] ⚠️ ALLARME: Rilevata porta non protetta e servizio vulnerabile.");
