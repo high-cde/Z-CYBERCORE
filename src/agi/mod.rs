@@ -17,7 +17,7 @@ impl NeuralAgent {
     /// Non effettua scansioni, connessioni o operazioni su target esterni.
     pub fn inspect_local_payload(&mut self, packet_data: &str) -> bool {
         self.status = String::from("INSPECTING_LOCAL_INPUT");
-        let allowed = TrafficInterceptor::default().analyze_packet(packet_data);
+        let allowed = TrafficInterceptor.analyze_packet(packet_data);
         self.status = String::from("STANDBY");
         allowed
     }
