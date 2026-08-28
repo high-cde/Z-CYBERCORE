@@ -11,17 +11,17 @@ impl TrafficInterceptor {
         TrafficInterceptor
     }
 
-    /// Analizza un pacchetto di rete simulato. Ritorna 'false' se è malevolo.
+    /// Applica una denylist deterministica a una stringa fornita localmente.
+    /// Non cattura traffico e non effettua connessioni di rete.
     pub fn analyze_packet(&self, packet_data: &str) -> bool {
-        println!("[PROXY] 🕸️ Intercettazione flusso dati in transito...");
+        println!("[POLICY] Analisi di input locale...");
 
-        // Logica neurale fittizia per il rilevamento anomalie
+        // Policy locale conservativa: non rappresenta un rilevatore ML.
         if packet_data.contains("MALWARE") || packet_data.contains("EXPLOIT") {
-            println!("[PROXY] 🛡️ ANOMALIA CRITICA: Firma malevola rilevata nel payload!");
-            println!("[PROXY] 🛑 Connessione interrotta e pacchetto distrutto (Drop).");
+            println!("[POLICY] Input rifiutato: firma esplicitamente negata.");
             false
         } else {
-            println!("[PROXY] 🟢 Traffico legittimo. Instradamento verso il kernel consentito.");
+            println!("[POLICY] Input non corrispondente alla denylist locale; nessuna connessione avviata.");
             true
         }
     }

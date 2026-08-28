@@ -1,108 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Z-CYBERCORE // WAR ROOM</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Z-CYBERCORE — Security operations controllate</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap');
-    :root { --bg: #030305; --panel: #0a0e17; --border: #1a2333; --red: #ff003c; --green: #00ff66; --cyan: #00f3ff; --yellow: #ffae00; --text: #e2e8f0; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Fira Code', monospace; }
-    body { background: var(--bg); color: var(--text); padding: 15px; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-    header { border-bottom: 2px solid var(--red); padding-bottom: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
-    h1 { color: var(--red); font-size: 1.5rem; text-shadow: 0 0 10px rgba(255,0,60,0.4); letter-spacing: 2px; }
-    .status-badge { background: rgba(0,255,102,0.1); border: 1px solid var(--green); color: var(--green); padding: 4px 10px; font-size: 0.75rem; font-weight: bold; border-radius: 3px; }
-    .terminal { flex-grow: 1; background: #000; border: 1px solid var(--border); padding: 12px; overflow-y: auto; display: flex; flex-direction: column; font-size: 0.8rem; }
-    .terminal-header { font-size: 0.7rem; color: #555; border-bottom: 1px dashed #333; padding-bottom: 6px; margin-bottom: 8px; text-transform: uppercase; display: flex; justify-content: space-between; }
-    .log-entry { margin-bottom: 6px; word-break: break-all; }
-    .log-time { color: #666; margin-right: 8px; }
-    .log-sys { color: var(--cyan); } .log-err { color: var(--red); font-weight: bold; } .log-success { color: var(--green); } .log-warn { color: var(--yellow); }
-    .input-line { display: flex; gap: 8px; margin-top: auto; padding-top: 10px; border-top: 1px solid #111; }
-    .prompt { color: var(--green); font-weight: bold; }
-    input[type="text"] { flex-grow: 1; background: transparent; border: none; color: #fff; font-family: 'Fira Code', monospace; font-size: 0.85rem; outline: none; }
+    :root { color-scheme: dark; --bg:#030305; --panel:#0a0e17; --line:#1a2333; --red:#ff4d6d; --cyan:#00d9ff; --green:#39e58c; --text:#e2e8f0; --muted:#9aa8bd; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { width:min(980px,calc(100% - 32px)); margin:auto; padding:64px 0; }
+    .eyebrow { color:var(--cyan); font:700 .78rem/1.2 ui-monospace,monospace; letter-spacing:.13em; text-transform:uppercase; }
+    h1 { margin:10px 0; font-size:clamp(2rem,5vw,4rem); letter-spacing:-.05em; }
+    h2 { margin:0 0 12px; font-size:1.2rem; }
+    p { color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:32px; }
+    .panel { padding:22px; border:1px solid var(--line); border-radius:12px; background:var(--panel); }
+    .state { border-left:3px solid var(--green); }
+    .state strong { color:var(--green); }
+    ul { margin:0; padding-left:20px; color:var(--muted); }
+    a { color:var(--cyan); }
+    code { color:#c4b5fd; }
+    footer { margin-top:32px; color:var(--muted); font-size:.9rem; }
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1>Z-CYBERCORE // SAFE DEMO TERMINAL</h1>
-      <span style="color: #8892b0; font-size: 0.75rem;">Analisi locale controllata · nessuna operazione remota</span>
-    </div>
-    <div class="status-badge" id="ws-status">LOCAL DEMO: READY</div>
-  </header>
-
-  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
-    <a href="https://github.com/high-cde/ZDOS/releases/latest/download/zdos-x86_64-zlang-v1.iso" download style="color:var(--cyan); border:1px solid var(--cyan); padding:7px 10px; text-decoration:none;">DOWNLOAD ZDOS ISO x86_64</a>
-    <a href="https://github.com/high-cde/ZDOS" target="_blank" rel="noreferrer" style="color:var(--green); border:1px solid var(--green); padding:7px 10px; text-decoration:none;">ZDOS REPOSITORY</a>
-  </div>
-  <p style="color:#8892b0; font-size:.72rem; margin:0 0 12px;">Z-CYBERCORE è una demo Rust locale. Il download ISO appartiene alla release verificata del repository ZDOS.</p>
-
-  <div class="terminal">
-    <div class="terminal-header">
-      <span>Z-LANG DISPATCHER // LOG STREAM</span>
-    </div>
-    
-    <div id="log-container" style="flex-grow: 1; overflow-y: auto;">
-      <div class="log-entry"><span class="log-sys">[SYSTEM]</span> Inizializzazione socket...</div>
-    </div>
-
-    <div class="input-line">
-      <span class="prompt">root@cybercore:~#</span>
-      <input type="text" id="cmd-input" placeholder="Invia un comando (es: ping, help)..." autocomplete="off">
-    </div>
-  </div>
-
-  <script>
-    const input = document.getElementById('cmd-input');
-    const log = document.getElementById('log-container');
-    const badge = document.getElementById('ws-status');
-
-    function getTime() { return new Date().toLocaleTimeString('it-IT', { hour12: false }); }
-
-    function appendLog(type, text) {
-      let cssClass = 'log-sys';
-      if(type === 'err') cssClass = 'log-err';
-      if(type === 'success') cssClass = 'log-success';
-      if(type === 'warn') cssClass = 'log-warn';
-      log.innerHTML += `<div class="log-entry"><span class="log-time">[${getTime()}]</span><span class="${cssClass}">[${type.toUpperCase()}]</span> ${text}</div>`;
-      log.scrollTop = log.scrollHeight;
-    }
-
-    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-    const ws = new WebSocket(`${protocol}//${window.location.host}/ws/`);
-
-    ws.onopen = () => {
-        badge.innerText = "DEMO BACKEND: ONLINE";
-        badge.style.color = "var(--cyan)";
-        badge.style.borderColor = "var(--cyan)";
-        appendLog('success', 'Demo backend collegato. Nessun tunnel remoto viene aperto da questa pagina.');
-    };
-
-    ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        appendLog(data.type, data.message);
-    };
-
-    ws.onclose = () => {
-        badge.innerText = "DEMO BACKEND: OFFLINE";
-        badge.style.color = "var(--red)";
-        badge.style.borderColor = "var(--red)";
-        appendLog('err', 'Connessione con il backend persa.');
-    };
-
-    input.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter' && this.value.trim() !== '') {
-        const cmd = this.value.trim();
-        appendLog('sys', `>> ${cmd}`);
-        
-        if(ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ cmd: cmd }));
-        } else {
-            appendLog('err', 'Demo backend non disponibile: nessuna operazione remota eseguita.');
-        }
-        this.value = '';
-      }
-    });
-  </script>
+  <main>
+    <div class="eyebrow">Z-CYBERCORE / evidence-first / authorized-only</div>
+    <h1>Security operations controllate.</h1>
+    <p>Questa superficie pubblica è informativa e read-only. Non apre socket, non accetta comandi, non esegue scansioni e non simula risultati di sicurezza.</p>
+    <section class="grid">
+      <article class="panel state">
+        <h2>Stato della release</h2>
+        <p><strong>RELEASE v0.1.0</strong></p>
+        <p>Il workflow CI Rust verifica formattazione, lint e test del codice. La verifica CI non è una certificazione di un ambiente esterno.</p>
+      </article>
+      <article class="panel">
+        <h2>Capability reali</h2>
+        <ul>
+          <li>Struttura Rust compilabile e testabile.</li>
+          <li>Documentazione di governance e security boundary.</li>
+          <li>Pagina pubblica statica e link alle prove del repository.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h2>Non implementato</h2>
+        <ul>
+          <li>Exploit, accesso shell, OSINT remoto e scansioni di target.</li>
+          <li>Proxy neurale, tunnel o infrastruttura onion reali.</li>
+          <li>AGI, pagamenti, mining e consenso distribuito.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h2>Confine di sicurezza</h2>
+        <p>Il prodotto non include un terminale pubblico né un backend WebSocket. Le operazioni su asset devono restare autorizzate, non distruttive e implementate soltanto quando esistono scope, audit e test verificabili.</p>
+      </article>
+      <article class="panel" style="grid-column:1/-1">
+        <h2>Codice e prove</h2>
+        <p><a href="https://github.com/high-cde/Z-CYBERCORE">Repository</a> · <a href="https://github.com/high-cde/Z-CYBERCORE/releases/tag/v0.1.0">Release v0.1.0</a> · <a href="docs/wiki/Home.md">Documentazione</a> · <a href="https://github.com/high-cde/ZDOS">ZDOS e build ISO</a></p>
+      </article>
+    </section>
+    <footer>Z-CYBERCORE · public information surface · nessuna azione remota viene avviata da questa pagina.</footer>
+  </main>
 </body>
 </html>
